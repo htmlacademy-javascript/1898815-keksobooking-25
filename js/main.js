@@ -4,6 +4,7 @@ const getRandomFloat = (min, max, symbolsAfterDot) => {
   }
   const number =  Math.random() * ((max + 1) - min) + min - 1;
   return number.toFixed(symbolsAfterDot);
+  // Метод .toFixed() подглядел на https://learn.javascript.ru/number
 };
 
 
