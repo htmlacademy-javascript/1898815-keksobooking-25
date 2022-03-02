@@ -3,7 +3,7 @@ const getRandomFloat = (min, max, symbolsAfterDot) => {
     return 'Нужен положительный диапазон чисел!';
   }
   const number =  Math.random() * ((max + 1) - min) + min - 1;
-  return number.toFixed(symbolsAfterDot);
+  return +number.toFixed(symbolsAfterDot);
   // Метод .toFixed() подглядел на https://learn.javascript.ru/number
 };
 
