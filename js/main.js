@@ -66,8 +66,7 @@ const createLocation = () => {
 };
 
 
-const createAuthor = () => {
-  let number = getRandomInteger(1, SIMILAR_ADVERT_COUNT);
+const createAuthor = (number) => {
   number = (number < 10) ? `0${number}` : number;
   const author = {
     avatar:`img/avatars/user${number}.png`,
@@ -92,7 +91,7 @@ const createOffer = () => ({
 
 const createAdvert = () => {
   const advert = {
-    author: createAuthor(),
+    author: '',
     offer: createOffer(),
     location: createLocation(),
   };
@@ -101,10 +100,10 @@ const createAdvert = () => {
 
 const similarAdverts = Array.from({length: SIMILAR_ADVERT_COUNT}, createAdvert);
 
-
-console.log(createAdvert());
-console.log(similarAdverts);
-
-
+for ( let i = 0; i < similarAdverts.length; i++) {
+  similarAdverts[i].offer.address =  `${similarAdverts[i].location.lat} , ${similarAdverts[i].location.lng}`;
+  similarAdverts[i].offer.title = `Заголовок ${i}`;
+  similarAdverts[i].author = createAuthor(i+1);
+}
 
 
