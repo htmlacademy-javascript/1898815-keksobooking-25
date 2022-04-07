@@ -5,7 +5,7 @@ const TYPES = [
   'flat',
   'house',
   'bungalow',
-  'hotel'
+  'hotel',
 ];
 const CHECK_TIMES = [
   '12:00',
@@ -25,8 +25,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
-
-const SIMILAR_ADVERT_COUNT = 10;
 
 const createLocation = () => {
   const location = {
@@ -49,7 +47,7 @@ const createOffer = () => ({
   title: '',
   address: '',
   price:random.getRandomInteger(10, 1000),
-  type:random.getRandomElements(TYPES, 1),
+  type:random.getRandomArrayElement(TYPES),
   rooms:random.getRandomInteger(1,10),
   guests:random.getRandomInteger(1,10),
   checkIn: random.getRandomElements(CHECK_TIMES, 1),
@@ -69,11 +67,15 @@ const createAdvert = () => {
   return advert;
 };
 
-const similarAdverts = Array.from({length: SIMILAR_ADVERT_COUNT}, createAdvert);
+const createSimilarAdverts = (count) => {
+  const similarAdverts = Array.from({length: count}, createAdvert);
 
-for ( let i = 0; i < similarAdverts.length; i++) {
-  similarAdverts[i].offer.address =  `${similarAdverts[i].location.lat} , ${similarAdverts[i].location.lng}`;
-  similarAdverts[i].offer.title = `Заголовок ${i}`;
-  similarAdverts[i].author = createAuthor(i+1);
-}
+  for ( let i = 0; i < similarAdverts.length; i++) {
+    similarAdverts[i].offer.address =  `${similarAdverts[i].location.lat} , ${similarAdverts[i].location.lng}`;
+    similarAdverts[i].offer.title = `Заголовок ${i}`;
+    similarAdverts[i].author = createAuthor(i+1);
+  }
+  return similarAdverts;
+};
 
+export {createSimilarAdverts};
