@@ -4,6 +4,13 @@ const mapBlock = document.querySelector('#map-canvas');
 const similarAdverts = createSimilarAdverts(2);
 const popupTemplate = document.querySelector('#card').content;
 const popups = [];
+const types = {
+  'flat': 'Квартира ',
+  'bungalow':'Бунгало ',
+  'house': 'Дом ',
+  'palace':'Дворец ',
+  'hotel':'Отель ',
+};
 
 similarAdverts.forEach(({author, offer}) => {
   const setTypeText = () => {
@@ -26,7 +33,7 @@ similarAdverts.forEach(({author, offer}) => {
   popupElement.querySelector('.popup__title').textContent = offer.title;
   popupElement.querySelector('.popup__text--address').textContent = offer.address;
   popupElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  popupElement.querySelector('.popup__type').textContent = setTypeText();
+  popupElement.querySelector('.popup__type').textContent = types[offer.type];
   popupElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkIn}, выезд до ${offer.checkOut}`;
   popupElement.querySelector('.popup__features').textContent = offer.features.join(', ');
