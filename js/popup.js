@@ -13,21 +13,6 @@ const types = {
 };
 
 similarAdverts.forEach(({author, offer}) => {
-  const setTypeText = () => {
-    switch (offer.type) {
-      case 'flat':
-        return 'Квартира ';
-      case 'bungalow':
-        return 'Бунгало ';
-      case 'house':
-        return 'Дом ';
-      case 'palace':
-        return 'Дворец ';
-      case 'hotel':
-        return 'Отель ';
-    }
-  };
-
   const popupElement = popupTemplate.cloneNode(true);
 
   popupElement.querySelector('.popup__title').textContent = offer.title;
