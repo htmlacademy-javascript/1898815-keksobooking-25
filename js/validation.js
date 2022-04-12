@@ -72,4 +72,3 @@ adForm.addEventListener('submit', (evt) => {
     adForm.submit();
   }
 });
-
