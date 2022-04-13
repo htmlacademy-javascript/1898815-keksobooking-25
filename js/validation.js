@@ -42,7 +42,7 @@ pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
 
 // Валидация по минимальной цене
 function validateMinPrice (value) {
-  return parseInt(value, 10) > minPrices[typesList.value];
+  return parseInt(value, 10) >= minPrices[typesList.value];
 }
 
 function getPriceErrorMessage () {
@@ -72,3 +72,5 @@ adForm.addEventListener('submit', (evt) => {
     adForm.submit();
   }
 });
+
+export {priceField, pristine};

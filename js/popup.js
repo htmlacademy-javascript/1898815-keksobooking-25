@@ -1,9 +1,4 @@
-import {createSimilarAdverts} from './data.js';
-
-const mapBlock = document.querySelector('#map-canvas');
-const similarAdverts = createSimilarAdverts(2);
-const popupTemplate = document.querySelector('#card').content;
-const popups = [];
+const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 const types = {
   'flat': 'Квартира ',
   'bungalow':'Бунгало ',
@@ -12,7 +7,7 @@ const types = {
   'hotel':'Отель ',
 };
 
-similarAdverts.forEach(({author, offer}) => {
+const createPopup = ({offer, author}) =>{
   const popupElement = popupTemplate.cloneNode(true);
 
   popupElement.querySelector('.popup__title').textContent = offer.title;
@@ -40,8 +35,6 @@ similarAdverts.forEach(({author, offer}) => {
   if (!popupElement.querySelector('.popup__description').textContent) {
     popupElement.querySelector('.popup__description').classList.add('hidden');
   }
-  popups.push(popupElement);
-});
-
-
-mapBlock.append(popups[0]);
+  return popupElement;
+};
+export {createPopup};

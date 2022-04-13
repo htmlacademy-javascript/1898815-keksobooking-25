@@ -30,6 +30,5 @@ const activatePage = () => {
 };
 
 disablePage();
-activatePage();
 
 export {disablePage , activatePage};

@@ -26,14 +26,10 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const createLocation = () => {
-  const location = {
-    lat: random.getRandomFloat(35.65000, 35.70000, 5),
-    lng: random.getRandomFloat(139.70000, 139.80000, 5),
-  };
-  return location;
-};
-
+const createLocation = () => ({
+  lat: random.getRandomFloat(35.65000, 35.70000, 5),
+  lng: random.getRandomFloat(139.70000, 139.80000, 5),
+});
 
 const createAuthor = (number) => {
   number = (number < 10) ? `0${number}` : number;
@@ -58,14 +54,11 @@ const createOffer = () => ({
 });
 
 
-const createAdvert = () => {
-  const advert = {
-    author: '',
-    offer: createOffer(),
-    location: createLocation(),
-  };
-  return advert;
-};
+const createAdvert = () => ({
+  author: '',
+  offer: createOffer(),
+  location: createLocation(),
+});
 
 const createSimilarAdverts = (count) => {
   const similarAdverts = Array.from({length: count}, createAdvert);

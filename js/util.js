@@ -1,22 +1,22 @@
 
 const random = {
-  getRandomFloat: function (min, max, symbolsAfterDot=1) {
+  getRandomFloat(min, max, symbolsAfterDot=1) {
     if (min >= max) {
       return 'Нужен положительный диапазон чисел!';
     }
     const number =  Math.random() * (max - min) + min;
     return +number.toFixed(symbolsAfterDot);
   },
-  getRandomInteger: function (a , b) {
+  getRandomInteger(a , b) {
     const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
     const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
     const result = Math.random() * (upper - lower + 1) + lower;
     return Math.floor(result);
   },
-  getRandomArrayElement: function (array) {
+  getRandomArrayElement(array) {
     return array[this.getRandomInteger(0, array.length - 1)];
   },
-  getRandomElements: function (array, amount)  {
+  getRandomElements(array, amount)  {
     const arr = [];
     const cycles = this.getRandomInteger(1, amount);
     for (let i = 0; i < cycles; i++) {
