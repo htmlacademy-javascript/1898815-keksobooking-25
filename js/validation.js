@@ -7,7 +7,7 @@ const timeInField = adForm.querySelector('#timein');
 const timeOutField = adForm.querySelector('#timeout');
 
 
-const minPrices = {
+const MIN_PRICES = {
   'flat': 1000,
   'bungalow': 0,
   'house': 5000,
@@ -15,7 +15,7 @@ const minPrices = {
   'hotel':3000,
 };
 
-const capacityOption = {
+const CAPACITY_OPTIONS = {
   '1': ['1'],
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
@@ -30,7 +30,7 @@ const pristine = new Pristine(adForm, {
 
 // Валидация полей Кол-во комнат и Кол-во мест
 function validateCapacity () {
-  return capacityOption[roomNumber.value].includes(capacity.value);
+  return CAPACITY_OPTIONS[roomNumber.value].includes(capacity.value);
 }
 
 function getCapacityErrorMessage () {
@@ -42,17 +42,17 @@ pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
 
 // Валидация по минимальной цене
 function validateMinPrice (value) {
-  return parseInt(value, 10) >= minPrices[typesList.value];
+  return parseInt(value, 10) >= MIN_PRICES[typesList.value];
 }
 
 function getPriceErrorMessage () {
-  return `Цена не менее ${minPrices[typesList.value]} руб/ночь`;
+  return `Цена не менее ${MIN_PRICES[typesList.value]} руб/ночь`;
 }
 pristine.addValidator(priceField, validateMinPrice, getPriceErrorMessage);
 
 // Синхронизация Типа жилья с плейсхолдером цены
 function onTypeChange () {
-  priceField.placeholder = minPrices[this.value];
+  priceField.placeholder = MIN_PRICES[this.value];
   pristine.validate(priceField);
 }
 typesList.addEventListener('change', onTypeChange);
@@ -68,8 +68,17 @@ timeOutField.addEventListener('change', onTimeChange);
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
+
   if (pristine.validate()) {
-    adForm.submit();
+    const formData = new FormData(evt.target);
+
+    fetch(
+      'https://25.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
   }
 });
 

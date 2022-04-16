@@ -1,31 +1,7 @@
-// Слайдер
-import {priceField, pristine} from './validation.js';
-const sliderElement = document.querySelector('.ad-form__slider');
-
-
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100000,
-  },
-  start: 1000,
-  step: 1,
-  connect: 'lower',
-  format: {
-    to: (value) => value.toFixed(0),
-    from: (value) => parseFloat(value),
-  },
-});
-
-sliderElement.noUiSlider.on('update', () => {
-  priceField.value = sliderElement.noUiSlider.get();
-  pristine.validate(priceField);
-});
-
-// Карта
-import { activatePage } from './page-activation.js';
+import {activatePage} from './page-activation.js';
 import {createSimilarAdverts} from './data.js';
 import {createPopup} from './popup.js';
+import { getAds } from './load.js';
 
 const addressField = document.querySelector('#address');
 const similarAds = createSimilarAdverts(10);
@@ -79,23 +55,24 @@ mainPinMarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (advert) => {
-  const {lat, lng} = advert.location;
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+const createMarkers = (adverts) => {
+  adverts.forEach((advert) =>{
+    const {lat, lng} = advert.location;
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
 
-  marker
-    .addTo(markerGroup)
-    .bindPopup(createPopup(advert));
+    marker
+      .addTo(markerGroup)
+      .bindPopup(createPopup(advert));
+  }
+  );
 };
 
-similarAds.forEach((advert) => {
-  createMarker(advert);
-});
+getAds(createMarkers);

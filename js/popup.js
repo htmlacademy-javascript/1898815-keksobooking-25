@@ -1,3 +1,5 @@
+import { hideElement } from './util.js';
+
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 const types = {
   'flat': 'Квартира ',
@@ -6,30 +8,46 @@ const types = {
   'palace':'Дворец ',
   'hotel':'Отель ',
 };
+// const features = {
+//   'wifi': ,
+//   'dishwasher': ,
+//   'parking' : ,
+//   'conditioner': ,
+//   'washer' : ,
+//   'elevator': ,
+//   'conditioner': ,
+// };
 
 const createPopup = ({offer, author}) =>{
   const popupElement = popupTemplate.cloneNode(true);
+  const featuresContainer = popupElement.querySelector('.popup__features');
 
   popupElement.querySelector('.popup__title').textContent = offer.title;
   popupElement.querySelector('.popup__text--address').textContent = offer.address;
   popupElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   popupElement.querySelector('.popup__type').textContent = types[offer.type];
   popupElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkIn}, выезд до ${offer.checkOut}`;
-  popupElement.querySelector('.popup__features').textContent = offer.features.join(', ');
+  popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   popupElement.querySelector('.popup__avatar').src = author.avatar;
   popupElement.querySelector('.popup__description').textContent = offer.description;
 
-  const photoContainer = popupElement.querySelector('.popup__photos');
-  const photoNode = photoContainer.querySelector('.popup__photo');
-  photoNode.src = offer.photos[0];
+  if (Object.hasOwn(offer, 'features')) {
+    featuresContainer.textContent = offer.features.join(', ');
+  } else {hideElement(featuresContainer);}
 
-  if (offer.photos.length > 1) {
-    for (let i = 1; i < offer.photos.length; i++) {
-      const photoClone = photoNode.cloneNode(false);
-      photoClone.src = offer.photos[i];
-      photoContainer.append(photoClone);
-    }
+  const photoContainer = popupElement.querySelector('.popup__photos');
+  const photoElement = photoContainer.querySelector('.popup__photo');
+  if (Object.hasOwn(offer, 'photos')) {
+    photoElement.src = offer.photos[0];
+
+    if (offer.photos.length > 1) {
+      for (let i = 1; i < offer.photos.length; i++) {
+        const photoElementClone = photoElement.cloneNode(false);
+        photoElementClone.src = offer.photos[i];
+        photoContainer.append(photoElementClone);
+      }
+    }} else {
+    hideElement(photoContainer);
   }
 
   if (!popupElement.querySelector('.popup__description').textContent) {

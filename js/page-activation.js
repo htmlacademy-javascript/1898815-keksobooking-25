@@ -10,10 +10,10 @@ const disablePage = () => {
   filterForm.classList.add('map__filters--disabled');
 
   filterFormFields.forEach((field) => {
-    field.setAttribute('disabled', 'disabled');
+    field.setAttribute('disabled', true);
   });
   adFormFields.forEach((field) => {
-    field.setAttribute('disabled', 'disabled');
+    field.setAttribute('disabled', true);
   });
 };
 
