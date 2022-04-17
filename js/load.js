@@ -7,11 +7,10 @@ const getAds = (onSuccess, onFail) => {
       if (response.ok) {
         return response.json();
       }
-
-      throw new Error (`${response.status} , ${response.statusText}`);
+      throw new Error (`${response.status}  ${response.statusText}`);
     })
-    .then((ads) => onSuccess(ads.slice(0, 20)))
-    .catch((err) => onFail(err));
+    .then((ads) => onSuccess(ads.slice(0, 10)))
+    .catch((err) => onFail(`${err}. Ошибка при загрузке объявлений.`));
 };
 
 const sendAd = (onSuccess, onFail, body) => {
@@ -24,10 +23,10 @@ const sendAd = (onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
-      } else {
-        throw new Error (`${response.status} ${response.statusText}`);
+        return onSuccess();
       }
+      throw new Error (`${response.status} ${response.statusText}`);
+
     })
     .catch((err) => onFail(`${err}. Не удалось отправить форму. Попробуйте ещё раз`)
     );

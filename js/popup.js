@@ -1,5 +1,6 @@
 import { hideElement } from './util.js';
 
+// Попап балуна
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 const types = {
   'flat': 'Квартира ',
@@ -18,7 +19,7 @@ const types = {
 //   'conditioner': ,
 // };
 
-const createPopup = ({offer, author}) =>{
+const createPopup = ({offer, author}) => {
   const popupElement = popupTemplate.cloneNode(true);
   const featuresContainer = popupElement.querySelector('.popup__features');
 
@@ -33,11 +34,13 @@ const createPopup = ({offer, author}) =>{
 
   if (Object.hasOwn(offer, 'features')) {
     featuresContainer.textContent = offer.features.join(', ');
-  } else {hideElement(featuresContainer);}
+  } else {
+    hideElement(featuresContainer);
+  }
 
   const photoContainer = popupElement.querySelector('.popup__photos');
-  const photoElement = photoContainer.querySelector('.popup__photo');
   if (Object.hasOwn(offer, 'photos')) {
+    const photoElement = photoContainer.querySelector('.popup__photo');
     photoElement.src = offer.photos[0];
 
     if (offer.photos.length > 1) {
@@ -46,7 +49,8 @@ const createPopup = ({offer, author}) =>{
         photoElementClone.src = offer.photos[i];
         photoContainer.append(photoElementClone);
       }
-    }} else {
+    }
+  } else {
     hideElement(photoContainer);
   }
 
@@ -55,4 +59,53 @@ const createPopup = ({offer, author}) =>{
   }
   return popupElement;
 };
-export {createPopup};
+
+// Попап сообщения об успехе
+const successMessage = document.querySelector('#success').content.querySelector('.success');
+const body = document.querySelector('body');
+
+function onClickRemoveSuccessMessage () {
+  body.removeChild(successMessage);
+  document.removeEventListener('keydown', onEscapeRemoveSuccessMessage);
+}
+function onEscapeRemoveSuccessMessage (evt) {
+  if (evt.key === 'Escape') {
+    body.removeChild(successMessage);
+    document.removeEventListener('click', onClickRemoveSuccessMessage);
+  }
+}
+
+const showSuccessMessage = () => {
+  body.append(successMessage);
+  document.addEventListener('click', onClickRemoveSuccessMessage, {once:true});
+
+  document.addEventListener('keydown', onEscapeRemoveSuccessMessage, {once:true});
+};
+
+// Попап сообщения об ошибке
+const errorMessage = document.querySelector('#error').content.querySelector('.error');
+function onErrorButton () {
+  body.removeChild(errorMessage);
+  document.removeEventListener('click', );
+  document.removeEventListener('keydown',);
+}
+function onClickRemoveErrorMessage () {
+  body.removeChild(errorMessage);
+  document.removeEventListener('keydown',onEscapeRemoveErrorMessage);
+}
+function onEscapeRemoveErrorMessage (evt) {
+  if (evt.key === 'Escape') {
+    body.removeChild(errorMessage);
+    document.removeEventListener('click', onClickRemoveErrorMessage);
+  }
+}
+
+const showErrorMessage = () => {
+  const errorButton = errorMessage.querySelector('.error__button');
+  body.append(errorMessage);
+  errorButton.addEventListener('click', onErrorButton, {once:true});
+  document.addEventListener('click', onClickRemoveErrorMessage, {once:true});
+  document.addEventListener('keydown', onEscapeRemoveErrorMessage, {once:true});
+};
+
+export {createPopup, showSuccessMessage, showErrorMessage};

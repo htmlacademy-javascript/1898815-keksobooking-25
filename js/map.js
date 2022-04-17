@@ -1,11 +1,9 @@
 import {activatePage} from './page-activation.js';
-import {createSimilarAdverts} from './data.js';
 import {createPopup} from './popup.js';
 import { getAds } from './load.js';
+import { showFetchAlert } from './util.js';
 
 const addressField = document.querySelector('#address');
-const similarAds = createSimilarAdverts(10);
-
 const map = L.map('map-canvas')
   .on('load', () => {
     activatePage();
@@ -49,7 +47,7 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
+mainPinMarker.on('move', (evt) => {
   addressField.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
@@ -75,4 +73,5 @@ const createMarkers = (adverts) => {
   );
 };
 
-getAds(createMarkers);
+getAds(createMarkers, showFetchAlert);
+export {mainPinMarker, map};

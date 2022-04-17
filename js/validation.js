@@ -1,3 +1,7 @@
+import { sendAd } from './load.js';
+import { resetPage} from './page-activation.js';
+import { showErrorMessage, showSuccessMessage } from './popup.js';
+
 const adForm = document.querySelector('.ad-form');
 const priceField = adForm.querySelector('#price');
 const typesList = adForm.querySelector('#type');
@@ -5,7 +9,7 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const timeInField = adForm.querySelector('#timein');
 const timeOutField = adForm.querySelector('#timeout');
-
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const MIN_PRICES = {
   'flat': 1000,
@@ -66,18 +70,24 @@ function onTimeChange (evt) {
 timeInField.addEventListener('change', onTimeChange);
 timeOutField.addEventListener('change', onTimeChange);
 
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage();
+});
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
     const formData = new FormData(evt.target);
 
-    fetch(
-      'https://25.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      }
+    sendAd (
+      () => {
+        showSuccessMessage();
+        resetPage();
+      },
+      showErrorMessage,
+      formData
     );
   }
 });
