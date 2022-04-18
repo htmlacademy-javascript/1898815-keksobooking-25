@@ -1,4 +1,6 @@
 import { mainPinMarker , map} from './map.js';
+import { removePopup } from './util.js';
+
 
 const filterForm = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
@@ -42,8 +44,6 @@ const description = adForm.querySelector('#description');
 const features = adForm.querySelectorAll('.features__checkbox');
 
 const resetPage = () => {
-  const popup = document.querySelector('.leaflet-popup');
-
   titleField.value = '';
   priceField.value = '';
   typesList.selectedIndex = 1;
@@ -65,7 +65,7 @@ const resetPage = () => {
     lat: 35.679458,
     lng: 139.757721,
   }, 13);
-  popup.remove();
+  removePopup();
 };
 
 disablePage();

@@ -9,7 +9,7 @@ const types = {
   'palace':'Дворец ',
   'hotel':'Отель ',
 };
-// const features = {
+// const FEATURES = {
 //   'wifi': ,
 //   'dishwasher': ,
 //   'parking' : ,
@@ -86,8 +86,8 @@ const showSuccessMessage = () => {
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
 function onErrorButton () {
   body.removeChild(errorMessage);
-  document.removeEventListener('click', );
-  document.removeEventListener('keydown',);
+  document.removeEventListener('click', onClickRemoveErrorMessage);
+  document.removeEventListener('keydown', onEscapeRemoveErrorMessage);
 }
 function onClickRemoveErrorMessage () {
   body.removeChild(errorMessage);

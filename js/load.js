@@ -24,12 +24,11 @@ const sendAd = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         return onSuccess();
+      } else {
+        throw new Error ();
       }
-      throw new Error (`${response.status} ${response.statusText}`);
-
     })
-    .catch((err) => onFail(`${err}. Не удалось отправить форму. Попробуйте ещё раз`)
-    );
+    .catch(() => onFail());
 };
 
 

@@ -31,7 +31,10 @@ const random = {
 };
 
 const hideElement = (element) => element.classList.add('hidden');
-
+const removePopup = () => {
+  const popup = document.querySelector('.leaflet-popup');
+  return  popup ? popup.remove() : null;
+};
 const showFetchAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -53,4 +56,4 @@ const showFetchAlert = (message) => {
   }, 5000);
 };
 
-export {random, hideElement, showFetchAlert};
+export {random, hideElement, showFetchAlert, removePopup};
