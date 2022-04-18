@@ -1,6 +1,8 @@
 import './util.js';
-import './data.js';
-import './popup.js';
+import './load.js';
+import './map.js';
 import './page-activation.js';
+import './data.js';
+import './slider.js';
+import './popup.js';
 import './validation.js';
-import './APIs.js';

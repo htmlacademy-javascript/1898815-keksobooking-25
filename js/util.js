@@ -30,4 +30,30 @@ const random = {
   },
 };
 
-export {random};
+const hideElement = (element) => element.classList.add('hidden');
+const removePopup = () => {
+  const popup = document.querySelector('.leaflet-popup');
+  return  popup ? popup.remove() : null;
+};
+const showFetchAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '20px 6px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, 5000);
+};
+
+export {random, hideElement, showFetchAlert, removePopup};

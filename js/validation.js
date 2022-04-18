@@ -1,3 +1,7 @@
+import { sendAd } from './load.js';
+import { resetPage} from './page-activation.js';
+import { showErrorMessage, showSuccessMessage } from './popup.js';
+
 const adForm = document.querySelector('.ad-form');
 const priceField = adForm.querySelector('#price');
 const typesList = adForm.querySelector('#type');
@@ -5,9 +9,9 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const timeInField = adForm.querySelector('#timein');
 const timeOutField = adForm.querySelector('#timeout');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
-
-const minPrices = {
+const MIN_PRICES = {
   'flat': 1000,
   'bungalow': 0,
   'house': 5000,
@@ -15,7 +19,7 @@ const minPrices = {
   'hotel':3000,
 };
 
-const capacityOption = {
+const CAPACITY_OPTIONS = {
   '1': ['1'],
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
@@ -30,7 +34,7 @@ const pristine = new Pristine(adForm, {
 
 // Валидация полей Кол-во комнат и Кол-во мест
 function validateCapacity () {
-  return capacityOption[roomNumber.value].includes(capacity.value);
+  return CAPACITY_OPTIONS[roomNumber.value].includes(capacity.value);
 }
 
 function getCapacityErrorMessage () {
@@ -42,17 +46,17 @@ pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
 
 // Валидация по минимальной цене
 function validateMinPrice (value) {
-  return parseInt(value, 10) >= minPrices[typesList.value];
+  return parseInt(value, 10) >= MIN_PRICES[typesList.value];
 }
 
 function getPriceErrorMessage () {
-  return `Цена не менее ${minPrices[typesList.value]} руб/ночь`;
+  return `Цена не менее ${MIN_PRICES[typesList.value]} руб/ночь`;
 }
 pristine.addValidator(priceField, validateMinPrice, getPriceErrorMessage);
 
 // Синхронизация Типа жилья с плейсхолдером цены
 function onTypeChange () {
-  priceField.placeholder = minPrices[this.value];
+  priceField.placeholder = MIN_PRICES[this.value];
   pristine.validate(priceField);
 }
 typesList.addEventListener('change', onTypeChange);
@@ -66,10 +70,25 @@ function onTimeChange (evt) {
 timeInField.addEventListener('change', onTimeChange);
 timeOutField.addEventListener('change', onTimeChange);
 
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage();
+});
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
+
   if (pristine.validate()) {
-    adForm.submit();
+    const formData = new FormData(evt.target);
+
+    sendAd (
+      () => {
+        showSuccessMessage();
+        resetPage();
+      },
+      showErrorMessage,
+      formData
+    );
   }
 });
 
